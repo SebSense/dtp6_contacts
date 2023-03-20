@@ -6,6 +6,7 @@
         class Person
         {
             public string persname, surname, phone, address, birthdate;
+            public string[] phones;
         }
         public static void Main(string[] args)
         {
@@ -39,7 +40,7 @@
                 {
                     if (commandLine.Length == 1) contactList.Clear();
                     else if (commandLine.Length == 2)
-                        for(int i = 0; i < contactList.Count(); i++)
+                        for (int i = 0; i < contactList.Count(); i++)
                         {
                             if (contactList[i].persname == commandLine[1] || contactList[i].surname == commandLine[1])
                             {
@@ -49,7 +50,7 @@
                         }
                     else if (commandLine.Length == 3)
                     {
-                        for(int i = 0; i < contactList.Count(); i++)
+                        for (int i = 0; i < contactList.Count(); i++)
                         {
                             if ((contactList[i].persname == commandLine[1] && contactList[i].surname == commandLine[2]) || (contactList[i].persname == commandLine[2] && contactList[i].surname == commandLine[1]))
                             {
@@ -58,12 +59,27 @@
                             }
                         }
                     }
+                    else Console.WriteLine("Error: too many arguments!");
+                }
+                else if (commandLine[0] == "edit")
+                {
+
+                }
+                else if (commandLine[0] == "list")
+                {
+                    if (commandLine.Length == 1)
+                    {
+                        for(int i = 0; i < contactList.Count(); i++)
+                        {
+                            Console.WriteLine($" {contactList[i].persname} {contactList[i].surname}\n" +
+                                $"  Phone number: {contactList[i].phone}\n  Address: {contactList[i].address}\n  Birthday: {contactList[i].birthdate}");
+                        }
+                    }
                 }
                 else if (commandLine[0] == "load")
                 {
                     if (commandLine.Length < 2)
                     {
-                        lastFileName = "address.lis";
                         using (StreamReader infile = new StreamReader(lastFileName))
                         {
                             string line;
@@ -78,14 +94,7 @@
                                 p.phone = phones[0];
                                 string[] addresses = attrs[3].Split(';');
                                 p.address = addresses[0];
-                                for (int ix = 0; ix < contactList.Count(); ix++)
-                                {
-                                    if (contactList[ix] == null)
-                                    {
-                                        contactList[ix] = p;
-                                        break;
-                                    }
-                                }
+                                contactList.Add(p);
                             }
                         }
                     }
@@ -147,6 +156,11 @@
                         string surname = Console.ReadLine();
                         Console.Write("phone: ");
                         string phone = Console.ReadLine();
+                        Console.Write("address: ");
+                        string address = Console.ReadLine();
+                        Console.Write("birthdate: ");
+                        string birthdate = Console.ReadLine();
+                        contactList.Add(new Person() { persname = persname, surname = surname, phone = phone, address = address, birthdate = birthdate });
                     }
                     else
                     {

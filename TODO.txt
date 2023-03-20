@@ -1,0 +1,14 @@
+0. Quit function X
+1. Delete function X
+2. List function X
+3. New function
+	Testa dessa
+4. Load default file
+5. Save default file
+6. Save any file
+7 Load any file.
+8. Edit
+9. Refaktorera class och telefonnr
+10. Förbättra och utöka new
+11. Förbättra quit
+12. Förbättra help
