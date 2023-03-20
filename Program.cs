@@ -2,7 +2,7 @@
 {
     class MainClass
     {
-        static Person[] contactList = new Person[100];
+        static List<Person> contactList = new();
         class Person
         {
             public string persname, surname, phone, address, birthdate;
@@ -12,14 +12,19 @@
             string lastFileName = "address.lis";
             string[] commandLine;
             Console.WriteLine("Hello and welcome to the contact list");
-            Console.WriteLine("Avaliable commands: ");
+            Console.WriteLine("Avaliable commands: " +
+                              "  delete /person/ - delete persons with a certain name" +
+                              "  delete          - delete all entries in the list" +
+                              "  list            - list all contacts in the list" +
+                              "  list /person/   - list only those contacts with a certain name");
             Console.WriteLine("  load        - load contact list data from the file address.lis");
             Console.WriteLine("  load /file/ - load contact list data from the file");
             Console.WriteLine("  new        - create new person");
             Console.WriteLine("  new /persname/ /surname/ - create new person with personal name and surname");
             Console.WriteLine("  quit        - quit the program");
             Console.WriteLine("  save         - save contact list data to the file previously loaded");
-            Console.WriteLine("  save /file/ - save contact list data to the file");
+            Console.WriteLine("  save /file/ - save contact list data to the file" +
+                "  help       - show available commands");
             Console.WriteLine();
             do
             {
@@ -27,8 +32,32 @@
                 commandLine = Console.ReadLine().Split(' ');
                 if (commandLine[0] == "quit")
                 {
-                    // NYI!
-                    Console.WriteLine("Not yet implemented: safe quit");
+                    Console.WriteLine("Adjö!");
+                    return;
+                }
+                if (commandLine[0] == "delete")
+                {
+                    if (commandLine.Length == 1) contactList.Clear();
+                    else if (commandLine.Length == 2)
+                        for(int i = 0; i < contactList.Count(); i++)
+                        {
+                            if (contactList[i].persname == commandLine[1] || contactList[i].surname == commandLine[1])
+                            {
+                                contactList.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                    else if (commandLine.Length == 3)
+                    {
+                        for(int i = 0; i < contactList.Count(); i++)
+                        {
+                            if ((contactList[i].persname == commandLine[1] && contactList[i].surname == commandLine[2]) || (contactList[i].persname == commandLine[2] && contactList[i].surname == commandLine[1]))
+                            {
+                                contactList.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                    }
                 }
                 else if (commandLine[0] == "load")
                 {
@@ -49,7 +78,7 @@
                                 p.phone = phones[0];
                                 string[] addresses = attrs[3].Split(';');
                                 p.address = addresses[0];
-                                for (int ix = 0; ix < contactList.Length; ix++)
+                                for (int ix = 0; ix < contactList.Count(); ix++)
                                 {
                                     if (contactList[ix] == null)
                                     {
@@ -77,7 +106,7 @@
                                 p.phone = phones[0];
                                 string[] addresses = attrs[3].Split(';');
                                 p.address = addresses[0];
-                                for (int ix = 0; ix < contactList.Length; ix++)
+                                for (int ix = 0; ix < contactList.Count(); ix++)
                                 {
                                     if (contactList[ix] == null)
                                     {
